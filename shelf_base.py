@@ -61,11 +61,11 @@ class customShelf(_shelf):
 
 
 def ShapeParent(*args):
-    selection = cmds.ls(selection=True)
+    selection = mc.ls(selection=True)
     PosOffset = True
 
     if(selection):
-        cmds.parent(selection[0], selection[1], shape=True, relative=PosOffset)
+        mc.parent(selection[0], selection[1], shape=True, relative=PosOffset)
 
 
 def Run_Test():
