@@ -57,6 +57,7 @@ class _shelf():
 class customShelf(_shelf):
     def build(self):
         self.addButton(label="Test_Run", command=Run_Test)
+        self.addButton(label="ShapeParent", command=ShapeParent)
 
 
 def ShapeParent(*args):
