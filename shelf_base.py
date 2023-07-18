@@ -66,7 +66,7 @@ class customShelf(_shelf):
         self.addButton(label="Test_Run", command=Run_Test)
         self.addButton(label="ShapeParent", command=ShapeParent)
         self.addButton(label="SamZero", command=insertNodeBefore)
-        self.addButton(label="IKFKSwitch", command=IKFKSwitch)
+        self.addButton(label="IKFKSwitch", command=IKFKOpen)
 
 
 
@@ -135,6 +135,7 @@ def insertNodeBefore(sfx = '_zro', alignToParent = False, loc = False, replace =
 
 
 ## IK FK Switch Functionallity
+name = mc.textField()
 def IKFKSwitch():
     selectionList = mc.ls(selection=True)
 
@@ -246,3 +247,31 @@ def IKFKSwitch():
 
     createIKFKSwitch(ikArray, fkArray, selectionList)
 
+
+def createIKFKAttribute(IKFKattributeName):
+        attribute = mc.spaceLocator()
+        mc.select(attribute)
+        attributeShape = "".join(mc.pickWalk(direction="down")) + ".L_Arm_iKfK"
+        mc.addAttr(longName=name, minValue=0, maxValue=1, defaultValue=0)
+        mc.setAttr(attributeShape, keyable=True)
+
+
+
+def BuildSwitch(*args):
+    
+    IKFKattributeName = mc.textField(name, query=True, text=True)
+
+    createIKFKAttribute(IKFKattributeName)
+    IKFKSwitch()
+
+
+def IKFKOpen():
+    window = mc.window( title="IKFKSwitch", iconName='IKFK', widthHeight=(200, 55), sizeable=True )
+    mc.rowColumnLayout( numberOfColumns=2, columnAttach=(1, 'right', 0), columnWidth=[(1, 100), (2, 250)] )
+    mc.text( label='Attribute_Name' )
+    mc.textField( name, edit=True,)
+    mc.button( label='Build Swtich', command=BuildSwitch )
+
+    mc.showWindow(window)
+
+############################
