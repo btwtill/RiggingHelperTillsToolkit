@@ -68,7 +68,7 @@ class customShelf(_shelf):
         self.addButton(label="ShapeParent", command=ShapeParent)
         self.addButton(label="SamZero", command=insertNodeBefore)
         self.addButton(label="IKFKSwitch", command=IKFKConfigurationInterface)
-        self.addButton(label="IKFKSwitch", command=shapeParentInstance)
+        self.addButton(label="ShapeInstance", command=shapeParentInstance)
 
 ############################ Custom Shelf End ############################
 
