@@ -330,8 +330,19 @@ def CreateANCORParent(_selectionForAnchor, _ikArray, _fkArray):
     mc.xform(Anchor, worldSpace=True, translation=ChainPos)
     mc.parent(Anchor, tmpParentingChainList[0])
 
-    
+##Function to connect an attribute to multiple pair blend Weight attributes  
+def ConnectPairBlend(_attribute_name):
 
+    selectionList = mc.ls(selection=True)
+    
+    for i in range(len(selectionList)):
+        weightOutPut = ""
+        if i == 0:
+            weightOutput = selectionList[i]
+            weightOutput = weightOutput + "." + _attribute_name
+        else:
+            input = selectionList[i] + ".weight"
+            mc.connectAttr(weightOutput, input)
 
 
 
@@ -370,9 +381,15 @@ def IKFKConfigurationInterface():
     #Bool to create the switch
     doCreateSwitch = mc.checkBox(label="Create Switch", value=True)
     
-    #execution button
+    #Building the switch execution button
     mc.button( label='Build Swtich', command=lambda _: BuildSwitch(mc.textField(name, query=True, text=True), mc.checkBox(doCreateParentJoint, query=True, value=True), mc.checkBox(doCreateAttributeShape, query=True, value=True), mc.checkBox(doCreateSwitch, query=True, value=True)))
     
+    #Input Field to determin which Attribute should be connected to the weight inputs on the pair blend Nodes
+    ikfkAttributeName = mc.textField()
+
+    #execution button to connect the ikfk Attribute with the blend Nodes
+    mc.button( label='ConnectPairBlends', command=lambda _: ConnectPairBlend(mc.textField(ikfkAttributeName, query=True, text=True)))
+
     #Display The window
     mc.showWindow(configWindow)
     
