@@ -56,6 +56,7 @@ class _shelf():
         else:
             mc.shelfLayout(self.name, p="ShelfLayout")
 
+############################ Base Shelf End ############################
 
 
 
@@ -66,11 +67,25 @@ class customShelf(_shelf):
         self.addButton(label="Test_Run", command=Run_Test)
         self.addButton(label="ShapeParent", command=ShapeParent)
         self.addButton(label="SamZero", command=insertNodeBefore)
-        self.addButton(label="IKFKSwitch", command=IKFKSwitch)
+        self.addButton(label="IKFKSwitch", command=IKFKConfigurationInterface)
+
+############################ Custom Shelf End ############################
+
+
+
+
+
+
 
 
 
 ##Functions to populate the shelf
+
+
+
+
+
+
 
 
 ##ShapeParent Function 
@@ -80,10 +95,21 @@ def ShapeParent(*args):
 
     if(selection):
         mc.parent(selection[0], selection[1], shape=True, relative=PosOffset)
+############################
+
+
+
+
+
 
 ##Test Function
 def Run_Test():
     print("Successful Installation")
+############################
+
+
+
+
 
 
 ##Sam Zero Functionality 
@@ -130,26 +156,28 @@ def insertNodeBefore(sfx = '_zro', alignToParent = False, loc = False, replace =
                     mc.setAttr(node+attr, 0)
 
     return cnNodes
-
+############################
 
 
 
 ## IK FK Switch Functionallity
-def IKFKSwitch():
-        selectionList = mc.ls(selection=True)
 
+
+#Function to turn Joint Selection into IKFK Switch
+def IKFKSwitch(doParentJointCreation, _selectionList):
+        selectionList = _selectionList
 
         def duplicateSelection(selectionArray):
-            dupList = []
-            for i in selectionArray:
-                newJoint = mc.duplicate(i, parentOnly=True)
-                try:
-                    mc.parent(newJoint, world=True)
-                except:
-                    print("already world Parent")
-                dupList.append(newJoint)
-                
-            return dupList
+                dupList = []
+                for i in selectionArray:
+                    newJoint = mc.duplicate(i, parentOnly=True)
+                    try:
+                        mc.parent(newJoint, world=True)
+                    except:
+                        print("already world Parent")
+                    dupList.append(newJoint)
+                    
+                return dupList
             
         def renameList(targetList, name):
             renamedList = []
@@ -166,7 +194,7 @@ def IKFKSwitch():
             for i in range(len(targetArray)):
                 if i != (len(targetArray) - 1):
                     mc.parent(targetArray[i + 1], targetArray[i])
-                    
+                
         def createIKChain(targetChain):
             mc.select(targetChain[0], targetChain[len(targetChain) - 1])
             IkHanldeName = "".join(targetChain[len(targetChain) - 1]) + "_IK_Handle"
@@ -224,57 +252,128 @@ def IKFKSwitch():
                 mc.connectAttr(fkNodeRotationX, currentBlendNodeRotationX2)
                 mc.connectAttr(fkNodeRotationY, currentBlendNodeRotationY2)
                 mc.connectAttr(fkNodeRotationZ, currentBlendNodeRotationZ2)
-                        
-                
+
+##Check if Joints are Selected
+        if len(selectionList) >= 2:
+            
+            ##Create the Chains
+
+            #FK Joints
+            fkArray = duplicateSelection(selectionList)
+            fkArray = renameList(fkArray, "FK_")
+
+            #IK Joints
+            ikArray = duplicateSelection(selectionList)
+            ikArray = renameList(ikArray, "IK_")
+
+            #Reparent the individual Joints into Chains
+            reparenting(fkArray)
+            reparenting(ikArray)
+
+            #Create IK System
+            createIKChain(ikArray)
+
+            #Build the Switch
+            createIKFKSwitch(ikArray, fkArray, selectionList)
+
+            if doParentJointCreation:
+                CreateANCORParent(selectionList, ikArray, fkArray)
+       
+        else:
+            print("Select Joints")
 
 
-
-        fkArray = duplicateSelection(selectionList)
-
-        fkArray = renameList(fkArray, "FK_")
-
-        ikArray = duplicateSelection(selectionList)
-
-        ikArray = renameList(ikArray, "IK_")
-
-
-        reparenting(fkArray)
-
-        reparenting(ikArray)
-
-        createIKChain(ikArray)
-
-        createIKFKSwitch(ikArray, fkArray, selectionList)
+##Create an IKFK Attribute for switching between ik and fk
+def createIKFKAttribute(IKFKattributeName):
+    attribute = mc.spaceLocator()
+    mc.select(attribute)
+    addedAttributeName = "".join(mc.pickWalk(direction="down")) + "." + IKFKattributeName
+    mc.addAttr(longName=IKFKattributeName, minValue=0, maxValue=1, defaultValue=0)
+    mc.setAttr(addedAttributeName, keyable=True)
+    mc.rename("iKfK")
 
 
+##Create Anchor and Parent Bone for IKFK Chain
+def CreateANCORParent(_selectionForAnchor, _ikArray, _fkArray):
 
+    selectionList = _selectionForAnchor
 
+    #selet target Joint
+    mc.select(selectionList[0])
+    parentJoint = mc.pickWalk(direction="up")
 
-# def IKFKOpen():
+    #create list to keep track of the names
+    tmpParentingChainList = [parentJoint]
 
-#     def BuildSwitch(*args):
+    #duplicate target joint rename it and add it to the list
+    targetDuplicate = mc.duplicate(parentJoint, parentOnly=True)
+    targetDuplicateName = "".join(targetDuplicate)
+    targetDuplicateName = "IKFK_" + targetDuplicateName.replace("1", "") 
+    targetDuplicate = mc.rename(targetDuplicate, targetDuplicateName)
+    tmpParentingChainList.append(targetDuplicateName)
 
-#         IKFKattributeName = mc.textField(name, query=True, text=True)
+    #unparent it
+    mc.parent(targetDuplicate, world=True)
 
-#         createIKFKAttribute(IKFKattributeName)
-#         IKFKSwitch()
+    #constrain it back to tha target joint
+    mc.parentConstraint(tmpParentingChainList[0], tmpParentingChainList[1])
 
-#     window = mc.window( title="IKFKSwitch", iconName='IKFK', widthHeight=(200, 55), sizeable=True )
-#     mc.rowColumnLayout( numberOfColumns=2, columnAttach=(1, 'right', 0), columnWidth=[(1, 100), (2, 250)] )
-#     mc.text( label='Attribute_Name' )
-#     name = mc.textField()
-#     mc.textField( name, edit=True,)
-#     mc.button( label='Build Swtich', command=BuildSwitch )
+    #parent the IK FK Chains to the IKFK Parent Joint
+    mc.parent(_ikArray[0], tmpParentingChainList[1])
+    mc.parent(_fkArray[0], tmpParentingChainList[1])
 
-#     mc.showWindow(window)
+    #store pos for Anchor
+    ChainPos = mc.xform(selectionList[0], query=True, worldSpace=True, translation=True)
 
-#     def createIKFKAttribute(IKFKattributeName):
-#         attribute = mc.spaceLocator()
-#         mc.select(attribute)
-#         attributeShape = "".join(mc.pickWalk(direction="down")) + ".L_Arm_iKfK"
-#         mc.addAttr(longName=name, minValue=0, maxValue=1, defaultValue=0)
-#         mc.setAttr(attributeShape, keyable=True)
+    #create, move and parent the Anchor
+    Anchor = mc.spaceLocator(name=selectionList[0] + "_ACNHOR")
+    mc.xform(Anchor, worldSpace=True, translation=ChainPos)
+    mc.parent(Anchor, tmpParentingChainList[0])
 
     
 
-############################
+
+
+
+##build function deciding what will be executed
+def BuildSwitch(args, parentJointCreation, attributeShapeCreation, switchCreation):
+    
+    selectionList = mc.ls(selection=True)
+
+    if attributeShapeCreation:
+        createIKFKAttribute(args)
+    if switchCreation:
+        IKFKSwitch(parentJointCreation, selectionList)
+    
+       
+#Open Dialogue to Create the IKFK Switch
+def IKFKConfigurationInterface():
+    
+    #basic Window creation
+    configWindow = mc.window(title="IKFKSwitch", iconName='IKFK', widthHeight=(200, 55), sizeable=True)
+    
+    #Window Layout
+    mc.rowColumnLayout( adjustableColumn=True )
+    
+    #Label
+    mc.text( label='Attribute_Name' )
+    
+    #Input Field Sotring the Stirng value
+    name = mc.textField()
+    
+    #Bool If the Attribute Shape should be created
+    doCreateAttributeShape = mc.checkBox(label="Create Attribute Shape")
+    
+    #Bool to enable creating the parent joint for the IK FK Switch Joints
+    doCreateParentJoint = mc.checkBox(label="ParnetJoint")
+    
+    #Bool to create the switch
+    doCreateSwitch = mc.checkBox(label="Create Switch", value=True)
+    
+    #execution button
+    mc.button( label='Build Swtich', command=lambda _: BuildSwitch(mc.textField(name, query=True, text=True), mc.checkBox(doCreateParentJoint, query=True, value=True), mc.checkBox(doCreateAttributeShape, query=True, value=True), mc.checkBox(doCreateSwitch, query=True, value=True)))
+    
+    #Display The window
+    mc.showWindow(configWindow)
+    
+############################ IK FK Functionality End ############################
