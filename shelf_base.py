@@ -1,6 +1,6 @@
 import maya.cmds as mc
 
-from RiggingHelperTillsToolkit import IkFkFunctions, ParentingFunctions, ColorFunctions, NamingFunctions
+from RiggingHelperTillsToolkit import IkFkFunctions, ParentingFunctions, ColorFunctions, NamingFunctions, PoleVectorLineFunctions
 
 
 ##DO NOTHING FUNCTION Base function used for passing a default action into a created button without command argument
@@ -71,15 +71,27 @@ class _shelf():
 class customShelf(_shelf):
     def build(self):
         self.addButton(label="Test_Run", command=Run_Test)
+
+
         self.addButton(label="ShapeParent", command=ParentingFunctions.ShapeParent)
-        self.addButton(label="SamZero", command=ParentingFunctions.insertNodeBefore)
-        self.addButton(label="IKFKSwitch", command=IkFkFunctions.IKFKConfigurationInterface)
         self.addButton(label="ShapeInstance", command=ParentingFunctions.shapeParentInstance)
-        self.addButton(label="ColorAnimationCtrl", command=ColorFunctions.ColorSettingWindow)
+        self.addButton(label="SamZero", command=ParentingFunctions.insertNodeBefore)
+
+
         self.addButton(label="Suffix Selected", command = NamingFunctions.SuffixConfigurationWindow)
 
+
+        self.addButton(label="IKFKSwitch", command=IkFkFunctions.IKFKConfigurationInterface)
+
+        
+        self.addButton(label="ColorAnimationCtrl", command=ColorFunctions.ColorSettingWindow)
+
+        
+        self.addButton(label="PoleVectorLine", command= PoleVectorLineFunctions.CreatePoleVectorLine)
+
+
         #Multi Constraining
-        self.addButton(label="")
+        self.addButton(label="MultiConstraint")
         multiConstraining_menu = mc.popupMenu(b=1)
 
         ##Adding all menu items for Multi Constraining

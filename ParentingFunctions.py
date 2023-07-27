@@ -73,3 +73,35 @@ def insertNodeBefore(sfx = '_zro', alignToParent = False, loc = False, replace =
 
     return cnNodes
 ############################
+
+
+
+
+# sel = cmds.ls(selection=True)
+
+# qshape = cmds.curve(p=[(0,0,0), (0,0,0)])
+
+
+# qshape = cmds.rename(qshape, sel[0] + '_q')
+# cmds.select(qshape)
+
+# selectionShape = cmds.pickWalk(direction="Down")
+
+
+# cmds.parent(selectionShape, sel[0], shape=True, relative=True)
+
+# multmatrix = cmds.createNode('multMatrix')
+# decomposeMatrix = cmds.createNode('decomposeMatrix')
+
+
+# cmds.connectAttr(multmatrix + '.matrixSum', decomposeMatrix + '.inputMatrix')
+
+# cmds.connectAttr(sel[1] + '.worldMatrix', multmatrix + '.matrixIn[0]')
+# cmds.connectAttr(sel[0] + '.worldInverseMatrix[0]', multmatrix + '.matrixIn[1]')
+
+
+# cmds.connectAttr(decomposeMatrix + '.outputTranslateX', selectionShape[0] + '.controlPoints[0].xValue')
+# cmds.connectAttr(decomposeMatrix + '.outputTranslateY', selectionShape[0] + '.controlPoints[0].yValue')
+# cmds.connectAttr(decomposeMatrix + '.outputTranslateZ', selectionShape[0] + '.controlPoints[0].zValue')
+
+# cmds.delete(qshape)
