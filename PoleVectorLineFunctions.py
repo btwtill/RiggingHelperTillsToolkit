@@ -6,7 +6,7 @@ def CreatePoleVectorLine():
             
         sel = mc.ls(selection=True)
 
-        qshape = mc.curve(p=[(0,0,0), (0,0,0)])
+        qshape = mc.curve(p=[(0,0,0), (0,0,0)], d=1)
 
 
         qshape = mc.rename(qshape, sel[0] + '_q')
