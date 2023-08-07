@@ -17,6 +17,18 @@ First shelf Install
     test = shelf_base.customShelf()
 
 
+userSetup.py - entry
+
+import maya.cmds as mc
+import maya.utils
+
+import RiggingHelperTillsToolkit.shelf_base as shelf
+mc.evalDeferred("shelf.customShelf()")
+
+
+
+
+
 
 
 
