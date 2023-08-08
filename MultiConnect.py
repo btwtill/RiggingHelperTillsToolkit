@@ -34,11 +34,11 @@ def MultiConnectConfigurationInterface():
     #firstElementAttributes = [s for s in firstElementAttributes if firstListFirstTargetSring in s or firstListSecondTargetString in s or firstListThirdTargetString in s ]
 
     #filter the attribute list
-    secondListFirstTargetSring = "Translate"
-    secondListSecondTargetString= "Rotate"
-    secondListThirdTargetString = "Scale"
+    # secondListFirstTargetSring = "Translate"
+    # secondListSecondTargetString= "Rotate"
+    # secondListThirdTargetString = "Scale"
 
-    secondElementAttribtues = [s for s in secondElementAttribtues if secondListFirstTargetSring in s or secondListSecondTargetString in s or secondListThirdTargetString in s ]
+    # secondElementAttribtues = [s for s in secondElementAttribtues if secondListFirstTargetSring in s or secondListSecondTargetString in s or secondListThirdTargetString in s ]
 
     #safe the output Node into a seperate Variable
     OutputNode = sel.pop(0)
