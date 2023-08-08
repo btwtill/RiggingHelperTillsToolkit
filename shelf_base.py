@@ -1,6 +1,6 @@
 import maya.cmds as mc
 
-from RiggingHelperTillsToolkit import IkFkFunctions, ParentingFunctions, ColorFunctions, NamingFunctions, PoleVectorLineFunctions, ReverseFoot, CreateControlsFunction
+from RiggingHelperTillsToolkit import IkFkFunctions, ParentingFunctions, ColorFunctions, NamingFunctions, PoleVectorLineFunctions, ReverseFoot, CreateControlsFunction, MatrixOffset, MultiConnect
 
 
 ##DO NOTHING FUNCTION Base function used for passing a default action into a created button without command argument
@@ -92,6 +92,10 @@ class customShelf(_shelf):
         self.addButton(label="ReverseChain", command= ReverseFoot.createReverseChain)
 
         self.addButton(label="CircleCtrls", command= CreateControlsFunction.CreateCircleCtrls)
+
+        self.addButton(label="MatrixDrvOffset", command=MatrixOffset.createMatrixDrvOffset)
+
+        self.addButton( label="MultiConnect", command= MultiConnect.MultiConnectConfigurationInterface)
 
 
         #Multi Constraining
