@@ -1,11 +1,15 @@
 import maya.cmds as mc
-
+from RiggingHelperTillsToolkit import generalFunctions
 
 
 
 
 ####Execute the Attribute Connections
-def ConnectOneToNNodes(_outputNodeAttribute, _inputNodeAttribute, _outputNode, _inputNodes, _targetList):
+def ConnectOneToNNodes(_outputNodeAttribute, _inputNodeAttribute):
+
+    _targetList = mc.ls(selection=True)
+
+    _outputNode = _targetList.pop(0)
 
     #get the string for the output Attribute on the output Node
     outputName = _outputNode + "." + _outputNodeAttribute
@@ -22,23 +26,16 @@ def MultiConnectConfigurationInterface():
     #get selection
     sel = mc.ls(selection=True)
 
+    # Filter Attributes
+    filterAttributes = ["translate", "rotate", "scale", "Translate", "Rotate", "Scale", "default", "outFloat"]
 
     #seperate out the output node and input nodes into different lists
     firstElementAttributes = mc.listAttr(sel[0])
     secondElementAttribtues = mc.listAttr(sel[1])
 
-    #firstListFirstTargetSring = "Translate"
-    #firstListSecondTargetString= "Rotate"
-    #firstListThirdTargetString = "Scale"
-
-    #firstElementAttributes = [s for s in firstElementAttributes if firstListFirstTargetSring in s or firstListSecondTargetString in s or firstListThirdTargetString in s ]
-
-    #filter the attribute list
-    # secondListFirstTargetSring = "Translate"
-    # secondListSecondTargetString= "Rotate"
-    # secondListThirdTargetString = "Scale"
-
-    # secondElementAttribtues = [s for s in secondElementAttribtues if secondListFirstTargetSring in s or secondListSecondTargetString in s or secondListThirdTargetString in s ]
+    #filter the first attriubte list
+    firstElementAttributes = generalFunctions.filter_strings(firstElementAttributes, filterAttributes)
+    secondElementAttribtues = generalFunctions.filter_strings(secondElementAttribtues, filterAttributes)
 
     #safe the output Node into a seperate Variable
     OutputNode = sel.pop(0)
@@ -70,7 +67,7 @@ def MultiConnectConfigurationInterface():
     mc.text(InputNodes, annotation="Input Nodes", height=20, backgroundColor = [0.3, 0.3, 0.3] )
 
     #execution button to connect the inputs and outputs
-    mc.button(label='Build Swtich', command=lambda _: ConnectOneToNNodes(mc.optionMenu(OutputNodeOptionMenu, query=True, value=True), mc.optionMenu(InputNodesOptionMenu, query=True, value=True), OutputNode, InputNodes, sel))
+    mc.button(label='Connect Attributes', command=lambda _: ConnectOneToNNodes(mc.optionMenu(OutputNodeOptionMenu, query=True, value=True), mc.optionMenu(InputNodesOptionMenu, query=True, value=True)))
 
 
     #Display The window
