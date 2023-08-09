@@ -1,5 +1,5 @@
 import maya.cmds as mc
-
+from RiggingHelperTillsToolkit import generalFunctions
 
 ## IK FK Switch Functionallity
 
@@ -100,16 +100,16 @@ def IKFKSwitch(doParentJointCreation, _selectionList):
             ##Create the Chains
 
             #FK Joints
-            fkArray = duplicateSelection(selectionList)
-            fkArray = renameList(fkArray, "FK_")
+            fkArray = generalFunctions.duplicateSelection(selectionList)
+            fkArray = generalFunctions.removeOneAndPrefixName(fkArray, "FK_")
 
             #IK Joints
-            ikArray = duplicateSelection(selectionList)
-            ikArray = renameList(ikArray, "IK_")
+            ikArray = generalFunctions.duplicateSelection(selectionList)
+            ikArray = generalFunctions.removeOneAndPrefixName(ikArray, "IK_")
 
             #Reparent the individual Joints into Chains
-            reparenting(fkArray)
-            reparenting(ikArray)
+            generalFunctions.reparenting(fkArray)
+            generalFunctions.reparenting(ikArray)
 
             #Create IK System
             createIKChain(ikArray)
