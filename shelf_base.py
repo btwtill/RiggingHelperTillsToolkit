@@ -97,7 +97,7 @@ class customShelf(_shelf):
 
         self.addButton( label="MultiConnect", command= MultiConnect.MultiConnectConfigurationInterface)
 
-        self.addButton(label="SamStretchSetup", command=SamStretchSetup.show_ui)
+        self.addButton(label="SamStretchSetup", command=SamStretchSetup.SamStretchSetupConfigInterface)
 
 
         #Multi Constraining
