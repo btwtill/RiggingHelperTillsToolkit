@@ -1,4 +1,4 @@
-import maya.mc as mc
+import maya.cmds as mc
 
 
 def twistSetupConfigInterface():
@@ -13,9 +13,13 @@ def twistSetupConfigInterface():
 
     slider = mc.floatSlider(min=0, max=30, value=0, step=1, changeCommand=update_label)
 
+
+
     mc.button(label="Create Twist Joints", command=lambda _:createTwistSetup(mc.floatSlider(slider, query=True, value=True)))
 
     mc.showWindow(configWindow)
+
+
 
 
 def update_label(value):
@@ -38,6 +42,13 @@ def createTwistSetup(_numberOfJoints):
 
     createTwistJointPointConstraints(twistJoints, p1, p2, weights01, weights02)
 
+    parentTwistJoints(twistJoints, p1)
+
+
+def parentTwistJoints(_twistJoinst, _p1):
+    for i in _twistJoinst:
+        mc.parent(i, _p1)
+
 def createJoints(_numberOfJoints, _name):
     twistJoints = []
     for i in range(_numberOfJoints):
@@ -56,8 +67,6 @@ def createTwistJointPointConstraints(_twistJoints, _p1, _p2, _weights01, _weight
 
 
 def getWeights(_numberOfJoints):
-
-    _numberOfJoints = 5
 
     weights01 = []
     weights02 = []
@@ -82,7 +91,3 @@ def getWeights(_numberOfJoints):
 
     return weights01, weights02
     
-
-
-
-twistSetupConfigInterface()
