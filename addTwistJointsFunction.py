@@ -1,50 +1,88 @@
-import maya.cmds as cmds
+import maya.mc as mc
 
 
-twistjointCount = 5
+def twistSetupConfigInterface():
+    configWindow = mc.window(title="TwistJoints", iconName="TwistJoints", widthHeight=(200, 55), sizeable=True)
+
+    mc.rowColumnLayout( adjustableColumn=True )
+
+    mc.text(label="Select number of Twist Joints")
+
+    global label
+    label = mc.text(label="0")
+
+    slider = mc.floatSlider(min=0, max=30, value=0, step=1, changeCommand=update_label)
+
+    mc.button(label="Create Twist Joints", command=lambda _:createTwistSetup(mc.floatSlider(slider, query=True, value=True)))
+
+    mc.showWindow(configWindow)
 
 
-sel = cmds.ls(selection=True)
+def update_label(value):
+    mc.text(label, edit=True, label=str(int(value)))
 
-firstJoint = sel[0]
-secondJoint = sel[1]
+def createTwistSetup(_numberOfJoints):
+    numberOfJoints = int(_numberOfJoints)
+    print(numberOfJoints)
 
-twistJoints = []
+    sel = mc.ls(selection=True)
 
-for i in range(twistjointCount):
-    cmds.select(clear=True)
-    newTwistJoint = cmds.joint()
-    twistJoints.append(newTwistJoint)
+    p1 = sel[0]
+    p2 = sel[1]
+
+    name = "".join(p1)
+
+    twistJoints = createJoints(numberOfJoints, name)
+
+    weights01 , weights02 = getWeights(numberOfJoints)
+
+    createTwistJointPointConstraints(twistJoints, p1, p2, weights01, weights02)
+
+def createJoints(_numberOfJoints, _name):
+    twistJoints = []
+    for i in range(_numberOfJoints):
+        mc.select(clear=True)
+        newJoint = mc.rename(mc.joint(), _name + "_Twist")
+        twistJoints.append(newJoint)
+    return twistJoints
+        
+
+def createTwistJointPointConstraints(_twistJoints, _p1, _p2, _weights01, _weights02):
+    for i in range(len(_twistJoints)):
+        pointConstraint = mc.pointConstraint(_p1, _p2, _twistJoints[i])
+
+        mc.setAttr(pointConstraint[0] + "." + _p1 + "W0", _weights02[i])
+        mc.setAttr(pointConstraint[0] + "." + _p2 + "W1", _weights01[i])
+
+
+def getWeights(_numberOfJoints):
+
+    _numberOfJoints = 5
+
+    weights01 = []
+    weights02 = []
+
+    for i in range(_numberOfJoints - 1):
+        print(i + 1)
+        print(_numberOfJoints - 1)
+        weight = (i + 1) / (_numberOfJoints - 1)
+        print(round(weight, 2))
+        weights01.append(round(weight, 2))
+
+
+    for i in range(len(weights01)):
+        if weights01[i] == 1:
+            weights01[i] = 0.95
+        
+    weights01.insert(0, 0.05)
+
+    for i in weights01:
+        weights02.append(round(abs(i - 1),2))
+        
+
+    return weights01, weights02
     
 
-firstweights = []
-secondweights = []
-
-for i in range(len(twistJoints)):
-    newPointConstraint = cmds.pointConstraint(firstJoint, secondJoint, twistJoints[i -1], w=1)
-    
-    initial_value = 100
-    iteration_count = (twistjointCount - 1) / 2
-    recursive_splits = recursive_split(initial_value, iteration_count, 2)
-    
-    weight1 = i/twistjointCount
-    weight2 = abs(weight1 - 1)
-    
-    print(weight1, weight2)
-    
-    
-    cmds.setAttr(newPointConstraint[0] + "." + firstJoint + "W0", weight2)
-    cmds.setAttr(newPointConstraint[0] + "." + secondJoint + "W1", weight1)
-    
-  
-def recursive_split(value, n, factor):
-    if n == 0:
-        return [value]
-    else:
-        divided_value = value / factor
-        sub_results = recursive_split(divided_value, n - 1, factor)
-        return [value] + sub_results
 
 
-print(recursive_splits)  # Output: [100, 50.0, 25.0, 12.5]
-    
+twistSetupConfigInterface()
