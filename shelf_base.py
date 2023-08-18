@@ -1,6 +1,6 @@
 import maya.cmds as mc
 
-from RiggingHelperTillsToolkit import IkFkFunctions, ParentingFunctions, ColorFunctions, NamingFunctions, PoleVectorLineFunctions, ReverseFoot, CreateControlsFunction, MatrixOffset, MultiConnect, SamStretchSetup, addTwistJointsFunction
+from RiggingHelperTillsToolkit import IkFkFunctions, ParentingFunctions, ColorFunctions, NamingFunctions, PoleVectorLineFunctions, ReverseFoot, CreateControlsFunction, MatrixOffset, MultiConnect, SamStretchSetup, addTwistJointsFunction, JiggleSetup
 
 
 ##DO NOTHING FUNCTION Base function used for passing a default action into a created button without command argument
@@ -100,6 +100,8 @@ class customShelf(_shelf):
         self.addButton(label="SamStretchSetup", command=SamStretchSetup.SamStretchSetupConfigInterface)
 
         self.addButton(label="TwistJoints", command=addTwistJointsFunction.twistSetupConfigInterface)
+
+        self.addButton(label="JiggleSetup", command = JiggleSetup.createJiggleSetup)
 
 
         #Multi Constraining
