@@ -1,7 +1,10 @@
 import maya.cmds as mc
 
-from RiggingHelperTillsToolkit import IkFkFunctions, ParentingFunctions, ColorFunctions, NamingFunctions, PoleVectorLineFunctions, ReverseFoot, CreateControlsFunction, MatrixOffset, MultiConnect, SamStretchSetup, addTwistJointsFunction, JiggleSetup
+from RiggingHelperTillsToolkit import IkFkFunctions, ParentingFunctions, ColorFunctions, NamingFunctions, PoleVectorLineFunctions, ReverseFoot, CreateControlsFunction, MatrixOffset, MultiConnect, SamStretchSetup, addTwistJointsFunction, JiggleSetup, shelfReload
 
+
+##ICON DIRECTORY
+ICON_DIR="C:/Users/Remote/Documents/maya/scripts/RiggingHelperTillsToolkit/icons"
 
 ##DO NOTHING FUNCTION Base function used for passing a default action into a created button without command argument
 def _null(*args):
@@ -70,12 +73,21 @@ class _shelf():
 ##Custom schelf buildl process add all the function you wannt into this function in order to build the shelf
 class customShelf(_shelf):
     def build(self):
-        self.addButton(label="Test_Run", command=Run_Test)
+        self.addButton(label="", icon=ICON_DIR + "/test.png" ,command=Run_Test)
+
+        self.addButton(label="", icon=ICON_DIR + "/sep.png")
+
+        self.addButton(label="", icon=ICON_DIR + "/reload.png" ,command=shelfReload.reloadShelf)
+
+        self.addButton(label="", icon=ICON_DIR + "/sep.png")
 
 
-        self.addButton(label="ShapeParent", command=ParentingFunctions.ShapeParent)
-        self.addButton(label="ShapeInstance", command=ParentingFunctions.shapeParentInstance)
-        self.addButton(label="SamZero", command=ParentingFunctions.insertNodeBefore)
+        self.addButton(label="", icon=ICON_DIR + "/shapeParent.png" ,command=ParentingFunctions.ShapeParent)
+        self.addButton(label="", icon=ICON_DIR + "/shapeInstance.png" ,command=ParentingFunctions.shapeParentInstance)
+
+        self.addButton(label="", icon=ICON_DIR + "/sep.png")
+
+        self.addButton(label="", icon=ICON_DIR + "/samZero.png" ,command=ParentingFunctions.insertNodeBefore)
 
 
         self.addButton(label="Suffix Selected", command = NamingFunctions.SuffixConfigurationWindow)
@@ -102,6 +114,8 @@ class customShelf(_shelf):
         self.addButton(label="TwistJoints", command=addTwistJointsFunction.twistSetupConfigInterface)
 
         self.addButton(label="JiggleSetup", command = JiggleSetup.createJiggleSetup)
+
+        self.addButton(label="", icon=ICON_DIR + "/sep.png")
 
 
         #Multi Constraining
