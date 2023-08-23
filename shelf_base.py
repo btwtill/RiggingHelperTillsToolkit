@@ -1,6 +1,6 @@
 import maya.cmds as mc
 
-from RiggingHelperTillsToolkit import IkFkFunctions, ParentingFunctions, ColorFunctions, NamingFunctions, PoleVectorLineFunctions, ReverseFoot, CreateControlsFunction, MatrixOffset, MultiConnect, SamStretchSetup, addTwistJointsFunction, JiggleSetup, shelfReload
+from RiggingHelperTillsToolkit import IkFkFunctions, ParentingFunctions, ColorFunctions, NamingFunctions, PoleVectorLineFunctions, ReverseFoot, CreateControlsFunction, MatrixOffset, MultiConnect, SamStretchSetup, addTwistJointsFunction, JiggleSetup, shelfReload, matchTransforms
 
 
 ##ICON DIRECTORY
@@ -85,6 +85,13 @@ class customShelf(_shelf):
 
         self.addButton(label="", icon=ICON_DIR + "/shapeInstance.png" ,command=ParentingFunctions.shapeParentInstance)
 
+        self.addButton(label="", icon=ICON_DIR + "/dupParentOnly.png", command="cmds.duplicate(parentOnly=True)")
+
+        self.addButton(label="", icon=ICON_DIR + "/matchTransforms.png")
+        transformMatchingMenu = mc.popupMenu(b=1)
+
+        self.addMenuItem(transformMatchingMenu, "match All", command="from RiggingHelperTillsToolkit import matchTransforms; " "matchTransforms.matchAll()")
+
         self.addButton(label="", icon=ICON_DIR + "/sep.png")
 
         self.addButton(label="", icon=ICON_DIR + "/samZero.png" ,command=ParentingFunctions.insertNodeBefore)
@@ -131,6 +138,10 @@ class customShelf(_shelf):
         self.addMenuItem(multiConstraining_menu, "Orient Constraint", command="from RiggingHelperTillsToolkit import ConstraintFunctions; " "ConstraintFunctions.MultiOrientConstraint()")
 
         self.addMenuItem(multiConstraining_menu, "Scale Constraint", command="from RiggingHelperTillsToolkit import ConstraintFunctions; " "ConstraintFunctions.MultiScaleConstraint()")
+
+        self.addButton(label="", icon=ICON_DIR + "/sep.png")
+
+        
         
 
 

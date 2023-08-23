@@ -21,10 +21,18 @@ test = shelf_base.customShelf()
 
 **userSetup.py - entry**
 
+Outdated
 ```python
 import maya.cmds as mc
 import maya.utils
 
 import RiggingHelperTillsToolkit.shelf_base as shelf
 mc.evalDeferred("shelf.customShelf()")
+```
+
+
+```python
+from RiggingHelperTillsToolkit import shelf_base
+
+maya.utils.executeDeferred("shelf_base.customShelf()")
 ```
