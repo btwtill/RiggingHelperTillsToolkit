@@ -81,45 +81,46 @@ class customShelf(_shelf):
 
         self.addButton(label="", icon=ICON_DIR + "/sep.png")
 
-
         self.addButton(label="", icon=ICON_DIR + "/shapeParent.png" ,command=ParentingFunctions.ShapeParent)
+
         self.addButton(label="", icon=ICON_DIR + "/shapeInstance.png" ,command=ParentingFunctions.shapeParentInstance)
 
         self.addButton(label="", icon=ICON_DIR + "/sep.png")
 
         self.addButton(label="", icon=ICON_DIR + "/samZero.png" ,command=ParentingFunctions.insertNodeBefore)
 
-
-        self.addButton(label="Suffix Selected", command = NamingFunctions.SuffixConfigurationWindow)
-
-
-        self.addButton(label="IKFKSwitch", command=IkFkFunctions.IKFKConfigurationInterface)
-
-        
-        self.addButton(label="ColorAnimationCtrl", command=ColorFunctions.ColorSettingWindow)
-
-        
-        self.addButton(label="PoleVectorLine", command= PoleVectorLineFunctions.CreatePoleVectorLine)
-
-        self.addButton(label="ReverseChain", command= ReverseFoot.createReverseChain)
-
-        self.addButton(label="CircleCtrls", command= CreateControlsFunction.CreateCircleCtrls)
-
-        self.addButton(label="MatrixDrvOffset", command=MatrixOffset.createMatrixDrvOffset)
-
-        self.addButton( label="MultiConnect", command= MultiConnect.MultiConnectConfigurationInterface)
-
-        self.addButton(label="SamStretchSetup", command=SamStretchSetup.SamStretchSetupConfigInterface)
-
-        self.addButton(label="TwistJoints", command=addTwistJointsFunction.twistSetupConfigInterface)
-
-        self.addButton(label="JiggleSetup", command = JiggleSetup.createJiggleSetup)
+        self.addButton(label="", icon=ICON_DIR + "/suffix.png" ,command = NamingFunctions.SuffixConfigurationWindow)
 
         self.addButton(label="", icon=ICON_DIR + "/sep.png")
 
+        self.addButton(label="", icon=ICON_DIR + "/IkFk.png" ,command=IkFkFunctions.IKFKConfigurationInterface)
+
+        self.addButton(label="", icon=ICON_DIR + "/PVLine.png" ,command= PoleVectorLineFunctions.CreatePoleVectorLine)
+
+        self.addButton(label="", icon=ICON_DIR + "/revChain.png" ,command= ReverseFoot.createReverseChain)
+
+        self.addButton(label="", icon=ICON_DIR + "/samStretch.png" ,command=SamStretchSetup.SamStretchSetupConfigInterface)
+
+        self.addButton(label="", icon=ICON_DIR + "/twistJoints.png" ,command=addTwistJointsFunction.twistSetupConfigInterface)
+
+        self.addButton(label="", icon=ICON_DIR + "/jiggleSetup.png" ,command = JiggleSetup.createJiggleSetup)
+
+        self.addButton(label="", icon=ICON_DIR + "/sep.png")
+        
+        self.addButton(label="", icon=ICON_DIR + "/color.png" ,command=ColorFunctions.ColorSettingWindow)
+
+        self.addButton(label="", icon=ICON_DIR + "/basicCtrls.png" ,command= CreateControlsFunction.CreateCircleCtrls)
+
+        self.addButton(label="", icon=ICON_DIR + "/sep.png")
+        
+        self.addButton(label="", icon=ICON_DIR + "/mtxDrvOffset.png" ,command=MatrixOffset.createMatrixDrvOffset)
+
+        self.addButton(label="", icon=ICON_DIR + "/sep.png")
+
+        self.addButton( label="", icon=ICON_DIR + "/multiConnect.png" ,command= MultiConnect.MultiConnectConfigurationInterface)
 
         #Multi Constraining
-        self.addButton(label="MultiConstraint")
+        self.addButton(label="", icon=ICON_DIR + "/multiConstraint.png")
         multiConstraining_menu = mc.popupMenu(b=1)
 
         ##Adding all menu items for Multi Constraining
