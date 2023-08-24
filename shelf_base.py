@@ -1,6 +1,6 @@
 import maya.cmds as mc
 
-from RiggingHelperTillsToolkit import IkFkFunctions, ParentingFunctions, ColorFunctions, NamingFunctions, PoleVectorLineFunctions, ReverseFoot, CreateControlsFunction, MatrixOffset, MultiConnect, SamStretchSetup, addTwistJointsFunction, JiggleSetup, shelfReload, matchTransforms
+from RiggingHelperTillsToolkit import IkFkFunctions, ParentingFunctions, ColorFunctions, NamingFunctions, PoleVectorLineFunctions, ReverseFoot, CreateControlsFunction, MatrixOffset, MultiConnect, SamStretchSetup, addTwistJointsFunction, JiggleSetup, shelfReload, matchTransforms, SimplePoleVector
 
 
 ##ICON DIRECTORY
@@ -90,17 +90,29 @@ class customShelf(_shelf):
         self.addButton(label="", icon=ICON_DIR + "/matchTransforms.png")
         transformMatchingMenu = mc.popupMenu(b=1)
 
-        self.addMenuItem(transformMatchingMenu, "match All", command="from RiggingHelperTillsToolkit import matchTransforms; " "matchTransforms.matchAll()")
+        self.addMenuItem(transformMatchingMenu, "match All", command=lambda _: matchTransforms.matchAll())
+
+        self.addMenuItem(transformMatchingMenu, "match Translation", command=lambda _: matchTransforms.matchTranslation())
+
+        self.addMenuItem(transformMatchingMenu, "match Rotation", command=lambda _: matchTransforms.matchRotation())
+
+        self.addMenuItem(transformMatchingMenu, "match Scale", command=lambda _: matchTransforms.matchScale())
 
         self.addButton(label="", icon=ICON_DIR + "/sep.png")
 
-        self.addButton(label="", icon=ICON_DIR + "/samZero.png" ,command=ParentingFunctions.insertNodeBefore)
+        self.addButton(label="", icon=ICON_DIR + "/ZeroFunctions.png")
+        zeroMenu = mc.popupMenu(b=1)
+
+        self.addMenuItem(zeroMenu, "Sam Zero", command=lambda _: ParentingFunctions.insertNodeBefore())
+        self.addMenuItem(zeroMenu, "Tim Zero", command=lambda _: ParentingFunctions.TimZeroUserConfig())
 
         self.addButton(label="", icon=ICON_DIR + "/suffix.png" ,command = NamingFunctions.SuffixConfigurationWindow)
 
         self.addButton(label="", icon=ICON_DIR + "/sep.png")
 
         self.addButton(label="", icon=ICON_DIR + "/IkFk.png" ,command=IkFkFunctions.IKFKConfigurationInterface)
+
+        self.addButton(label="", icon=ICON_DIR + "/simplePV.png" ,command= SimplePoleVector.createSimplePoleVector)
 
         self.addButton(label="", icon=ICON_DIR + "/PVLine.png" ,command= PoleVectorLineFunctions.CreatePoleVectorLine)
 

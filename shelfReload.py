@@ -3,6 +3,14 @@ from RiggingHelperTillsToolkit import shelf_base
 
 
 def reloadShelf():
-    import importlib
-    importlib.reload(shelf_base)
-    shelf_base.customShelf()
+    try:
+        from imp import reload
+        from RiggingHelperTillsToolkit import shelf_base
+
+        reload(shelf_base)
+
+        shelf_base.customShelf()
+        print("Succesful Reload")
+    except:
+        log.error("Error reloading shelf")
+        return
