@@ -1,6 +1,6 @@
 import maya.cmds as mc
 
-from RiggingHelperTillsToolkit import IkFkFunctions, ParentingFunctions, ColorFunctions, NamingFunctions, PoleVectorLineFunctions, ReverseFoot, CreateControlsFunction, MatrixOffset, MultiConnect, SamStretchSetup, addTwistJointsFunction, JiggleSetup, shelfReload, matchTransforms, SimplePoleVector
+from RiggingHelperTillsToolkit import IkFkFunctions, ParentingFunctions, ColorFunctions, NamingFunctions, PoleVectorLineFunctions, ReverseFoot, CreateControlsFunction, MatrixOffset, MultiConnect, SamStretchSetup, addTwistJointsFunction, JiggleSetup, shelfReload, matchTransforms, SimplePoleVector, CreateMatrixOffset, createDistanceBetween
 
 
 ##ICON DIRECTORY
@@ -131,6 +131,8 @@ class customShelf(_shelf):
         self.addButton(label="", icon=ICON_DIR + "/basicCtrls.png" ,command= CreateControlsFunction.CreateCircleCtrls)
 
         self.addButton(label="", icon=ICON_DIR + "/sep.png")
+
+        self.addButton(label="", icon=ICON_DIR + "/mtrxZero.png" ,command=CreateMatrixOffset.iterateCreateMatrixZeroOffset)
         
         self.addButton(label="", icon=ICON_DIR + "/mtxDrvOffset.png" ,command=MatrixOffset.createMatrixDrvOffset)
 
@@ -150,6 +152,8 @@ class customShelf(_shelf):
         self.addMenuItem(multiConstraining_menu, "Orient Constraint", command="from RiggingHelperTillsToolkit import ConstraintFunctions; " "ConstraintFunctions.MultiOrientConstraint()")
 
         self.addMenuItem(multiConstraining_menu, "Scale Constraint", command="from RiggingHelperTillsToolkit import ConstraintFunctions; " "ConstraintFunctions.MultiScaleConstraint()")
+
+        self.addButton( label="", icon=ICON_DIR + "/dist.png" ,command= createDistanceBetween.createDistance)
 
         self.addButton(label="", icon=ICON_DIR + "/sep.png")
 
