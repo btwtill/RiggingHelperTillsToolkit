@@ -4,7 +4,7 @@ from RiggingHelperTillsToolkit import IkFkFunctions, ParentingFunctions, ColorFu
 
 
 ##ICON DIRECTORY
-ICON_DIR="C:/Users/Remote/Documents/maya/scripts/RiggingHelperTillsToolkit/icons"
+ICON_DIR="C:/Users/tillp/OneDrive/Dokumente/maya/scripts/RiggingHelperTillsToolkit/icons"
 
 ##DO NOTHING FUNCTION Base function used for passing a default action into a created button without command argument
 def _null(*args):
@@ -147,11 +147,11 @@ class customShelf(_shelf):
         ##Adding all menu items for Multi Constraining
         self.addMenuItemDivider(multiConstraining_menu, divider=True, dividerLabel="CHOOSE CONSTRAINT TYPE")
 
-        self.addMenuItem(multiConstraining_menu, "Parent Constraint", command="from RiggingHelperTillsToolkit import ConstraintFunctions; " "ConstraintFunctions.MultiParentConstraint()")
+        self.addMenuItem(multiConstraining_menu, "Parent Constraint", command="from RiggingHelperTillsToolkit import ConstraintFunctions; " "ConstraintFunctions.MultiParentConstraintConfig()")
 
-        self.addMenuItem(multiConstraining_menu, "Orient Constraint", command="from RiggingHelperTillsToolkit import ConstraintFunctions; " "ConstraintFunctions.MultiOrientConstraint()")
+        self.addMenuItem(multiConstraining_menu, "Orient Constraint", command="from RiggingHelperTillsToolkit import ConstraintFunctions; " "ConstraintFunctions.MultiOrientConstraintConfig()")
 
-        self.addMenuItem(multiConstraining_menu, "Scale Constraint", command="from RiggingHelperTillsToolkit import ConstraintFunctions; " "ConstraintFunctions.MultiScaleConstraint()")
+        self.addMenuItem(multiConstraining_menu, "Scale Constraint", command="from RiggingHelperTillsToolkit import ConstraintFunctions; " "ConstraintFunctions.MultiScaleConstraintConfig()")
 
         self.addButton( label="", icon=ICON_DIR + "/dist.png" ,command= createDistanceBetween.createDistance)
 
@@ -169,3 +169,5 @@ class customShelf(_shelf):
 def Run_Test():
     print("Successful Installation")
 ############################
+
+
